@@ -202,7 +202,7 @@ const MainIndex = () => {
                   inputRef={(el) => (codeRefs.current[index] = el)}
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
-                  error={!isValid || code[index] === "" || isNaN(code[index])}
+                  error={code[index] === "" || isNaN(code[index])}
                   onPaste={handlePaste}
                 />
               ))}
