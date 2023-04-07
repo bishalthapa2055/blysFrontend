@@ -29,7 +29,7 @@ const StyledTypo = styled(Typography)({
   lineHeight: "48px",
 
   textAlign: "center",
-  color: "#1D1D1D",
+  // color: "#ffffff",
   textTransform: "uppercase",
 });
 const StyledButton = styled(Button)({
@@ -73,15 +73,15 @@ const StyledTextField = styled(TextField)({
     fontSize: "20px",
     fontFamily: "Arial",
     fontWeight: 600,
+    // color: "#ffffff",
   },
 });
 const MainIndex = () => {
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [islogin, setIsLogin] = useState(false);
   const [dbcode, setDbCode] = useState("");
   const { enqueueSnackbar } = useSnackbar();
-  const [modal, setModal] = useState(false);
 
   const codeRefs = useRef([]);
 
@@ -95,6 +95,13 @@ const MainIndex = () => {
 
   const handleInputChange = (index, value) => {
     if (isNaN(value)) {
+      enqueueSnackbar("Do Insert Number", {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
       return false;
     }
     const newCode = [...code];
@@ -104,9 +111,6 @@ const MainIndex = () => {
     if (value !== "" && index < 5) {
       codeRefs.current[index + 1].focus();
     }
-    // if (value !== "") {
-    //   focusNextInput(index);
-    // }
   };
   const focusNextInput = (currentIndex) => {
     if (currentIndex < code.length - 1) {
@@ -116,7 +120,17 @@ const MainIndex = () => {
   const handlePaste = (event) => {
     event.preventDefault();
     const clipboardData = event.clipboardData.getData("Text");
-    console.log(clipboardData);
+
+    if (isNaN(clipboardData)) {
+      enqueueSnackbar("Unable to paste Alphanumberic letters", {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
+      return false;
+    }
     const newCode = [...code];
     let startIndex = 0;
 
